@@ -10,9 +10,9 @@ const getToken = require('../helpers/get-toke');
 
 module.exports = class UserController {
 
-    static async register( req , res ) {
+static async register( req , res ) {
           
-    const { name , email , phone , password, confirmpassword } = req.body; 
+     const { name , email , phone , password, confirmpassword } = req.body; 
 
     // validations 
     if(!name){
@@ -56,7 +56,6 @@ module.exports = class UserController {
     const passwordHash = await bcrypt.hash(password, salt);
 
     // create a user
- 
     const user = new User({
       name,
       email,
@@ -77,7 +76,7 @@ module.exports = class UserController {
 }
 
 
-  static async login( req , res ){
+static async login( req , res ){
      
   const { email, password } = req.body;
 
@@ -115,7 +114,7 @@ module.exports = class UserController {
    
   }
 
-  static async checkUser( req , res ){
+static async checkUser( req , res ){
      
     let currentUser; 
 
@@ -134,7 +133,28 @@ module.exports = class UserController {
       currentUser = null
     }
 
-    res.status(200).send(currentUser);
-
+    res.status(200).send(currentUser)
    }
+
+static async getUserById( req , res ) {
+     
+     const id = req.params.id; 
+
+     const user = await User.findById(id).select("-password")
+
+     if(!user){ 
+      res.status(422).json({ message: "Usuário nao encontrado!"}); 
+      return
+     }
+ 
+     res.status(200).json({ user });
+      
+   }
+
+static async editUser( req , res ) {
+  res.status(200).json({message: "Deu certo Update! "}) 
+  return
+}
+
+
 }
