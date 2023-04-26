@@ -1,8 +1,15 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+
+// jwt 
+const jwt = require('jsonwebtoken');
+
+// helps
 const createUserToken = require('../helpers/create-user-token');
+const getToken = require('../helpers/get-toke');
 
 module.exports = class UserController {
+
     static async register( req , res ) {
           
     const { name , email , phone , password, confirmpassword } = req.body; 
@@ -35,14 +42,14 @@ module.exports = class UserController {
       return
     } 
 
-    // // 2 email iguais
+   // 2 email iguais
 
-    //  const userExists = await User.find({email: email}) 
+     const userExists = await User.findOne({email: email}) 
 
-    // if (userExists) {
-    //   res.status(422).json({ message: "Por favor, utilize outro E-mail"});
-    //   return
-    // }
+     if (userExists) {
+       res.status(422).json({ message: "Por favor, utilize outro E-mail"});
+       return
+     }
     
     // create a password 
     const salt = await bcrypt.genSalt(12); 
@@ -67,6 +74,67 @@ module.exports = class UserController {
     } catch (error) {
       res.status(500).json({ message: error.message});
     }
+}
 
+
+  static async login( req , res ){
+     
+  const { email, password } = req.body;
+
+ //  verificaçao de preenchimentod e campo de input
+
+  if(!email){
+      res.status(422).json({ message: "O Email é obrigatorio" });
+      return 
+  }
+ 
+  if(!password){ 
+    res.status(422).json({ message: "A senha é obrigatorio"});
     }
+
+
+  // verificaçao de email e senha existente   
+
+  const user = await User.findOne({email: email}) 
+
+  if (!user) {
+      res.status(422).json({ message: "Nao há usuario cadastrado com esse E-mail"});
+      return
+  }
+
+  // check password
+
+  const checkPassword = await bcrypt.compare(password, user.password)
+
+   if (!checkPassword) {
+    res.status(422).json({ message: "Senha invalida"});
+    return
+   }
+
+   await createUserToken(user, req, res); 
+   
+  }
+
+  static async checkUser( req , res ){
+     
+    let currentUser; 
+
+    console.log(req.headers.authorization);
+
+    if(req.headers.authorization){  
+ 
+      const token = getToken(req) 
+      const decoded = jwt.verify(token, 'nossosecret');
+
+      currentUser = await User.findById(decoded.id);
+
+      currentUser.password = undefined
+
+    } else {
+      currentUser = null
+    }
+
+    res.status(200).send(currentUser);
+
+   }
 }
