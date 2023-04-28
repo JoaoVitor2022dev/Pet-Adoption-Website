@@ -4,7 +4,7 @@ const UserController = require('../controllers/UserController');
 // middleware 
 const verifyToken = require('../helpers/verify-token');
 
-// registrar 
+// rroutes by user
 router.post('/register', UserController.register); 
 router.post('/login', UserController.login);
 router.get('/checkuser', UserController.checkUser); 
