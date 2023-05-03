@@ -10,6 +10,8 @@ module.exports = class PetController {
        
         const { name, age , weight, color } = req.body
 
+        const images = req.files
+
         const available = true
 
         // imgens uploads 
@@ -29,6 +31,10 @@ module.exports = class PetController {
         }
         if (!color) {
             res.status(422).json({ message: "A cor é obrigatório!"}); 
+            return
+        }
+        if (images.length === 0) {
+            res.status(422).json({ message: "A imagem é obrigatório!"}); 
             return
         }
 
@@ -51,6 +57,10 @@ module.exports = class PetController {
               Image: user.image,
               phone: user.phone,
             },
+        })
+ 
+        images.map((image) => {
+           pet.images.push(image.filename)
         })
 
         try {
