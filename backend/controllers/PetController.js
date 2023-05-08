@@ -7,7 +7,7 @@ const ObjectId = require('mongoose').Types.ObjectId
 
 module.exports = class PetController {
     // create a pet 
-    static async create(req ,res) {
+static async create(req ,res) {
        
         const { name, age , weight, color } = req.body
 
@@ -36,6 +36,7 @@ module.exports = class PetController {
         }
         if (images.length === 0) {
             res.status(422).json({ message: "A imagem é obrigatório!"}); 
+            console.log(images.length);
             return
         }
 
@@ -75,7 +76,7 @@ module.exports = class PetController {
         }
     }
 
-    static async getAll(req, res){ 
+static async getAll(req, res){ 
        
         const pets = await Pet.find().sort('-createdAt')
 
@@ -83,7 +84,7 @@ module.exports = class PetController {
     }
 
     // get all user pets
-     static async getAllUserPets(req, res) {
+static async getAllUserPets(req, res) {
        const token = getToken(req)
        const user = await getUserByToken(token)
 
@@ -97,7 +98,7 @@ module.exports = class PetController {
     }
 
     // pets para a adoçao
-    static async getAllUserAdoptions(req , res){
+static async getAllUserAdoptions(req , res){
         const token = getToken(req)
         const user = await getUserByToken(token)
  
@@ -106,7 +107,7 @@ module.exports = class PetController {
         res.status(200).json({ pets })
     }
 
-    static async getPetById(req, res ) {
+static async getPetById(req, res ) {
        
         const id = req.params.id
 
@@ -125,8 +126,7 @@ module.exports = class PetController {
         res.status(200).json({ pet: pet })
     }
 
-    static async removePetById(req, res) {
-      
+    static async removePetById(req, res) {    
         const id = req.params.id; 
 
         // check if id is valid
@@ -134,27 +134,94 @@ module.exports = class PetController {
             res.status(422).json({ message: 'ID inválido!' })
             return
         }
-
         // check exist a pet 
         const pet = await Pet.findOne({ _id: id }); 
 
         if (!pet) {
             res.status(404).json({ message: 'Pet nao encontrado' })
+            return
         }
-  
-
         // check if logged in user registered the pet 
-
         const token = getToken(req); 
         const user = await getUserByToken(token)
  
         if(pet.user._id.toString() !== user._id.toString()){ 
           res.status(422).json({ message: 'Houve um problema em processar a sua solicitaçao, tente mais tarde !'});
+          return
         }
- 
         await Pet.findByIdAndRemove(id);
 
         res.status(200).json({ message: "Pet temovido com sucesso!" })
 
+    }
+
+    static async updatePet( req, res) {
+       const id = req.params.id; 
+
+       const { name, age, weight, color} = req.body
+
+       const images = req.files
+
+       const updatedData = {}; 
+
+       // check if pet exists
+       const pet = await Pet.findOne({_id: id}); 
+
+       if (!pet) {
+         res.status(404).json({ message: "Pet nao encontrado!"})
+         return 
+       }
+
+        // check if logged in user registered the pet 
+       const token = getToken(req); 
+       const user = await getUserByToken(token)
+ 
+      if(pet.user._id.toString() !== user._id.toString()){ 
+          res.status(422).json({ message: 'Houve um problema em processar a sua solicitaçao, tente mais tarde !'});
+          return
+        }
+
+        // validation 
+        if (!name) {
+            res.status(422).json({ message: "O nome é obrigatório!"}); 
+            return
+        } else {
+            updatedData.name = name
+        }
+
+        if (!age) {
+            res.status(422).json({ message: "O idade é obrigatório!"}); 
+            return
+        }else {
+            updatedData.age = age
+        }
+
+        if (!weight) {
+            res.status(422).json({ message: "O peso é obrigatório!"}); 
+            return
+        } else {
+            updatedData.weight = weight
+        }
+
+        if (!color) {
+            res.status(422).json({ message: "A cor é obrigatório!"}); 
+            return
+        } else {
+            updatedData.color = color
+        }
+        if (images.length === 0) {
+            res.status(422).json({ message: "A imagem é obrigatório!"}); 
+            console.log(images.length);
+            return
+        } else {
+            updatedData.images = []; 
+            images.map((image) => {
+               updatedData.images.push(image.filename)
+                })
+        }
+        // update in database
+        await Pet.findByIdAndUpdate(id, updatedData); 
+
+        res.status(200).json({ message: 'Pet atualizado com sucesso!'});
     }
 }
