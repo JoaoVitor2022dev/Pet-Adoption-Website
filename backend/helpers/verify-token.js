@@ -6,7 +6,7 @@ const getToken = require('./get-toke');
 const checkToken = ( req , res , next ) => {
      
    if(!req.headers.authorization){
-    return res.status(401).json({ message: 'Acesso negado'});
+    return res.status(401).json({ message: 'Acesso negado 1'});
    }
     
     const token = getToken(req); 
