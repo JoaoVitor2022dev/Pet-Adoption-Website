@@ -4,6 +4,7 @@ import { BrowserRouter, Routes , Route, Navigate } from "react-router-dom";
 // componentes navbar e footer
 import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
+import Container from "./components/layout/Container";
 
 // pages
 import Home from "../src/components/Home"; 
@@ -15,11 +16,13 @@ function App() {
   return (
      <BrowserRouter>
       <Navbar/>
-       <Routes>
+      <Container>
+      <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login/>}/>
        </Routes>
+      </Container>
        <Footer/>
      </BrowserRouter>
   );

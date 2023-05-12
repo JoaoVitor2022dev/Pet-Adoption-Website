@@ -1,0 +1,8 @@
+commit dessa parte 
+
+ - criando componente container 
+
+ 1 - criando o componente Container.js e colocando styles nele;
+ 2 - escapsulando o container com as paginas de conteudo, passando o children por parametro;
+
+ 
