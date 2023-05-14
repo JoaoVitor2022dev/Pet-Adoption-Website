@@ -1,5 +1,5 @@
 // hook 
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 // componente de inputs 
 import Input from "../../form/Input"; 
@@ -10,9 +10,14 @@ import styles from "../../form/Form.module.css";
 // react router dom 
 import { Link } from "react-router-dom";
 
+// context api 
+import { Context } from "../../../context/UserContext";
+
 const Register = () => {
 
   const [user, setUser] = useState({});   
+
+  const { register } = useContext(Context);
 
   // function de envio de dados 
   const handleOnChange = (e) => {
@@ -22,7 +27,8 @@ const Register = () => {
   function handleSubmit(e) {
     e.preventDefault(); 
     // enviar o usuario para o banco
-    console.log(user); 
+    
+    register(user)
 
     // 1 - criar hook 
     // 2 - context 

@@ -13,9 +13,8 @@ export default function useAuth() {
          }) 
            
          console.log(data);
-        } catch (error) {
-            // tratar erro
-         console.log(error);
+        } catch (err) {
+         console.log(err);
         }
     }
     return { register }
