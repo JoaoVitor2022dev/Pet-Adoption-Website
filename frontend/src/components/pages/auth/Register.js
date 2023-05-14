@@ -1,3 +1,6 @@
+// hook 
+import { useState } from "react";
+
 // componente de inputs 
 import Input from "../../form/Input"; 
 
@@ -7,16 +10,28 @@ import styles from "../../form/Form.module.css";
 // react router dom 
 import { Link } from "react-router-dom";
 
-// function de envio de dados 
-const handleOnChange = (event) => {
- event.preventDefault()
-}
-
 const Register = () => {
+
+  const [user, setUser] = useState({});   
+
+  // function de envio de dados 
+  const handleOnChange = (e) => {
+    setUser({...user, [e.target.name]: e.target.value}); 
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault(); 
+    // enviar o usuario para o banco
+    console.log(user); 
+
+    // 1 - criar hook 
+    // 2 - context 
+  }
+
   return (
     <section className={styles.form_container}>
       <h1>Registrar</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
         <Input text="Nome" type="text" name="name" placeholder="Digite o seu nome"  handleOnChange={handleOnChange}/>
         <Input text="Telefone" type="phone" name="phone" placeholder="Digite o seu telefone"  handleOnChange={handleOnChange}/>
         <Input text="email" type="email" name="email" placeholder="Digite o seu E-mail"  handleOnChange={handleOnChange}/>
