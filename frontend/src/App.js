@@ -9,6 +9,9 @@ import Footer from "./components/layout/Footer";
 import Navbar from "./components/layout/Navbar";
 import Container from "./components/layout/Container";
 
+// flash message
+import Message from "./components/layout/Message";
+
 // pages
 import Home from "../src/components/Home"; 
 import Login from "../src/components/pages/auth/Login";
@@ -21,7 +24,8 @@ function App() {
         <BrowserRouter>
           <Navbar/>
           <Container>
-          <Routes>
+          <Message/>  
+           <Routes>
              <Route path="/" element={<Home/>}/>
              <Route path="/register" element={<Register/>}/>
              <Route path="/login" element={<Login/>}/>

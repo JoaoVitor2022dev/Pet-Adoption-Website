@@ -1,8 +1,7 @@
-commit dessa parte 
+// flash messagens  
 
- - criando componente container 
+1 - criar o hook useFlashMessage.js 
 
- 1 - criando o componente Container.js e colocando styles nele;
- 2 - escapsulando o container com as paginas de conteudo, passando o children por parametro;
+2 - module na pagina layout => Message.js e Message.module.css; 
 
- 
+3 - colocar a Message.js no App.js dentro da aplicaçao...
