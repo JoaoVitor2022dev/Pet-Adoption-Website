@@ -1,7 +1,12 @@
 // flash messagens  
 
-1 - criar o hook useFlashMessage.js 
+1 - criar o hook useFlashMessage.js ;
 
-2 - module na pagina layout => Message.js e Message.module.css; 
+2 - module na pagina layout => Message.js e Message.module.css ; 
 
-3 - colocar a Message.js no App.js dentro da aplicaçao...
+3 - colocar a Message.js no App.js dentro da aplicaçao dos rotas...
+
+4 - desenvolver sistema de styles dinamico entre as className de err e sucess ;
+
+
+// 

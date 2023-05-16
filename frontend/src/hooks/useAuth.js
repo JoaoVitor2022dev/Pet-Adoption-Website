@@ -3,9 +3,17 @@ import api from "../utils/api";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+// hook de flash messagens 
+import useFlashMessage from "./useFlashMessage";
+
 export default function useAuth() {
-   
+ 
+    const { setFlasMessage } = useFlashMessage();
+
     async function register(user) {
+ 
+        let msgText = "Cadastro realizado com sucesso!"; 
+        let msgType = "sucess";
         
         try {
          const data = await api.post('/users/register', user).then((response) => { 
@@ -14,8 +22,11 @@ export default function useAuth() {
            
          console.log(data);
         } catch (err) {
-         console.log(err);
+            msgText = err.response.data.message 
+            msgType = "err";    
         }
+
+        setFlasMessage(msgText,msgType);
     }
     return { register }
 }
