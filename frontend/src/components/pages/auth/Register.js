@@ -35,8 +35,10 @@ const Register = () => {
     
     register(user); 
 
-    if (!redirect) {
-      return navigate("/")
+    console.log(redirect);
+
+    if (redirect === true) {
+       navigate("/")
     }
 
   }

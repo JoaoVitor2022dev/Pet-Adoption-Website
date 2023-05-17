@@ -23,6 +23,7 @@ export default function useAuth() {
      }
 
      setAuthenticated(true)
+     setRedirect(true)
 
      },[])
 
@@ -38,12 +39,9 @@ export default function useAuth() {
            
         await authUser(data);
 
-        setRedirect(true);
-
         } catch (err) {
             msgText = err.response.data.message 
             msgType = "err";    
-            setRedirect(false);
         }
         setFlasMessage(msgText,msgType); 
     }
@@ -77,8 +75,6 @@ export default function useAuth() {
 
         setFlasMessage(msgText,msgType);
     }
-
-    console.log(redirect);
 
     return { register, authenticated, redirect, logout }
 }
