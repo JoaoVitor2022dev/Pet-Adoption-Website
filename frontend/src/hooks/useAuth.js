@@ -59,9 +59,28 @@ export default function useAuth() {
 
     }
 
+    // logout
+
+    function logout() {
+        const msgText = 'Logout realizado com sucesso!'; 
+        const msgType = 'sucess';
+
+        // mudar o authenticaçao 
+        setAuthenticated(false); 
+
+        // remover o token do local storage 
+        localStorage.removeItem('token')
+
+        // tirar da api de dentro do header 
+        api.defaults.headers.Authorization = undefined
+
+
+        setFlasMessage(msgText,msgType);
+    }
+
     console.log(redirect);
 
-    return { register, authenticated, redirect }
+    return { register, authenticated, redirect, logout }
 }
 
 

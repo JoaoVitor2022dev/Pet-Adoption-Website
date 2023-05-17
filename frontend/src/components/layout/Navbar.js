@@ -14,7 +14,7 @@ import { useContext } from "react";
 
 const Navbar = () => {
 
-  const authenticated = useContext(Context); 
+  const {authenticated, logout} = useContext(Context); 
 
   return (
     <nav className={styles.navbar}>
@@ -26,7 +26,12 @@ const Navbar = () => {
             <li>
                 <Link to="/">Adotar</Link>
             </li>
-            { authenticated ? (<><p>Logado com sucesso</p></>) : (
+            { authenticated ? (
+            <>
+            <li onClick={logout}>
+               Sair  
+            </li>
+            </>) : (
             <>
             <li>
                <Link to="/login">Entrar</Link>
