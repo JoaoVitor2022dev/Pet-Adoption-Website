@@ -1,7 +1,7 @@
 const Pet = require('../models/Pet');
 
 // helps 
-const getToken = require('../helpers/get-toke');
+const getToken = require('../helpers/get-token');
 const getUserByToken = require('../helpers/get-user-by-token');
 const ObjectId = require('mongoose').Types.ObjectId
 
@@ -16,7 +16,6 @@ static async create(req ,res) {
         const available = true
 
         // imgens uploads 
-
         // validation 
         if (!name) {
             res.status(422).json({ message: "O nome é obrigatório!"}); 

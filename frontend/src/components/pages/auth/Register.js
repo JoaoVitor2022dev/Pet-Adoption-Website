@@ -1,6 +1,9 @@
 // hook 
 import { useState, useContext } from "react";
 
+// react router dom 
+import { useNavigate } from "react-router-dom";
+
 // componente de inputs 
 import Input from "../../form/Input"; 
 
@@ -17,7 +20,9 @@ const Register = () => {
 
   const [user, setUser] = useState({});   
 
-  const { register } = useContext(Context);
+  const { register, authenticated, redirect } = useContext(Context);
+
+  const navigate = useNavigate();
 
   // function de envio de dados 
   const handleOnChange = (e) => {
@@ -28,10 +33,12 @@ const Register = () => {
     e.preventDefault(); 
     // enviar o usuario para o banco
     
-    register(user)
+    register(user); 
 
-    // 1 - criar hook 
-    // 2 - context 
+    if (!redirect) {
+      return navigate("/")
+    }
+
   }
 
   return (
