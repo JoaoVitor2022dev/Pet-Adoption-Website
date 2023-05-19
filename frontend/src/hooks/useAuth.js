@@ -25,7 +25,7 @@ export default function useAuth() {
      setAuthenticated(true)
      setRedirect(true)
 
-     },[])
+     },[]);  
 
     async function register(user) {
  
@@ -46,6 +46,9 @@ export default function useAuth() {
         setFlasMessage(msgText,msgType); 
     }
 
+ 
+    // authentication 
+
     async function authUser(data) {
         
     setAuthenticated(true)
@@ -55,6 +58,28 @@ export default function useAuth() {
     // redirect 
     console.log("redirect");
 
+    }
+
+    // login 
+
+    async function login(user) {
+        let msgText = "Login realizado com sucesso";
+        let msgType = "sucess"; 
+
+        try {
+
+         const data = await api.post("/users/login", user).then((response) => {
+            return response.data
+         });    
+          
+         await authUser(data);
+
+        } catch (err) {
+            msgText = err.response.data.message
+            msgType = "err"
+        }
+ 
+        setFlasMessage(msgText,msgType);
     }
 
     // logout
@@ -76,7 +101,7 @@ export default function useAuth() {
         setFlasMessage(msgText,msgType);
     }
 
-    return { register, authenticated, redirect, logout }
+    return { register, authenticated, redirect, logout, login }
 }
 
 

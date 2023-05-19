@@ -21,7 +21,7 @@ static async create(req ,res) {
             res.status(422).json({ message: "O nome é obrigatório!"}); 
             return
         }
-        if (!age) {
+        if (!codeuni) {
             res.status(422).json({ message: "O idade é obrigatório!"}); 
             return
         }

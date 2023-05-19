@@ -15,15 +15,26 @@ import { Context } from "../../../context/UserContext";
 import { useContext } from "react";
 
 const Login = () => {
- 
+
+  const [user, setUser ] = useState({});
+
+  const { login } = useContext(Context);
+  
   const handleOnChange = (e) => { 
+     setUser({...user, [e.target.name]: e.target.value})
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); 
+     
+    login(user);
 
   }
 
   return (
     <section className={styles.form_container}>
       <h1>Login</h1>
-      <form>
+      <form  onSubmit={handleSubmit}>
          <Input
            text="E-mail"
            type="email"

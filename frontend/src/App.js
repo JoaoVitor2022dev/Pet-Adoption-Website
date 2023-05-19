@@ -16,6 +16,7 @@ import Message from "./components/layout/Message";
 import Home from "../src/components/Home"; 
 import Login from "../src/components/pages/auth/Login";
 import Register from "../src/components/pages/auth/Register";
+import Profile from "./components/pages/User/Profile";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
              <Route path="/" element={<Home/>}/>
              <Route path="/register" element={<Register/>}/>
              <Route path="/login" element={<Login/>}/>
+             <Route path="/user/profile" element={<Profile/>}/>
           </Routes>
           </Container>
           <Footer/>
