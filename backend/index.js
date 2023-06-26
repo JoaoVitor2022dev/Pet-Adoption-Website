@@ -22,8 +22,8 @@ app.use('/pets', PetRoutes);
 
 
 // config do banco de dados... 
-const DB_USER = "vitorlima"; 
-const DB_PASSWORD = "Hqvnwo9VMArbMmIj"; 
+const DB_USER = ""; 
+const DB_PASSWORD = ""; 
 
 mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@clusterpet.m1m8rdz.mongodb.net/test`)
 .then(() => {
